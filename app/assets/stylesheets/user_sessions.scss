@@ -1,0 +1,36 @@
+body {
+  background: #e9ebee;
+}
+
+//.margin{
+//    margin-left: 40px;
+//    margin-right: 40px;
+//}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.login-container {
+  margin: auto;
+  max-width: 400px;
+  background: #ffffff;
+  margin-top: 70px;
+  box-shadow: 0 0 0 1px rgba(14,41,57,.12), 0 2px 5px rgba(14,41,57,.44), inset 0 -1px 2px rgba(14,41,57,.15);
+}
+
+.login-padding {
+  padding: 30px;
+}
+
+.login-logo {
+  margin-bottom: 15px;
+}
+
+.login-logo .zagu-logo {
+  height:48px;
+}

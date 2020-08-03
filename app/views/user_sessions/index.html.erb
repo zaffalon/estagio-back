@@ -1,0 +1,28 @@
+<div class="login-container">
+  <div class="login-padding">
+    <div class="login-logo" style="text-align: center">
+      <%= image_tag("zagu_big.png", :alt => 'Zagu', class: 'zagu-logo') %>
+    </div>
+    <%= form_for @user_session do |f| %>
+        <div class="margin" id="loginSection">
+          <!--<h2>Bem-vindo ao teste de estágio da Zagu</h2>-->
+          <p><b>Bem vindo ao teste de estágio da Zagu!</b></p>
+          <p>Insira a chave de acesso recebida por e-mail para acessar o seu teste.</p>
+          <!--<p>Ao fazer login no sistema você terá a opção de iniciar o teste e receber as instruções do que deve ser implementado.</p>-->
+          <!--<p><b>Atenção! Ao iniciar o teste você terá 10 dias para enviar o link do github de sua solução para o email estagio@zagu.com.br.</b></p>-->
+          <!--<p><b>Não serão aceitos projetos após o término prazo.</b></p>-->
+
+          <div class="messages-info error" style="display: <%= @user_session.errors.full_messages.any? ? 'block' : 'none' %>">
+            <% @user_session.errors.full_messages.each do |msg| %>
+                <%= msg %>
+            <% end %>
+          </div>
+          <div class="form-group">
+            <label for="token">Chave de acesso:</label>
+            <%= f.text_field :token, :label => 'Chave de acesso:', :placeholder => "Sua chave aqui", :class => (@user_session.errors.full_messages.any? ? 'form-control error' : 'form-control') %>
+          </div>
+          <%= f.submit 'Entrar', class: 'btn btn-success' %>
+        </div>
+    <% end %>
+  </div>
+</div>

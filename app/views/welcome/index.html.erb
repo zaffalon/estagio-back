@@ -1,0 +1,236 @@
+<script>
+  // Set the date we're counting down to
+  var countDownDate = new Date("<%= @finish_date%>").getTime();
+
+  if (countDownDate) {
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+      // Get todays date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now an the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the element with id="demo"
+      document.getElementById("time").innerHTML = days + "d " + hours + "h "
+          + minutes + "m " + seconds + "s ";
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("time").innerHTML = "EXPIRED";
+      }
+    }, 1000);
+  }
+
+</script>
+
+<% if @current_user.started_test.nil? %>
+    <div>
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a href="<%= root_url %>"><%= image_tag 'zagu_white_110px.png', class: 'zagu-brand' %></a>
+          </div>
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+
+    <div class="container-fluid margin">
+      <div class="panel">
+        <div class="panel-body">
+          <h2>Sobre a Zagu</h2>
+          <p>Nós somos um time de engenheiros e desenvolvedores que busca trazer inovação para o mercado fitness
+            brasileiro.
+            Com foco em simplicidade e transparência, trazemos aos nossos clientes a melhor experiência em gestão do
+            mercado. </p>
+          <p>Somos diferentes:</p>
+          <ul>
+            <li>Usamos o que há de melhor em tecnologia a favor do cliente, a fim de trazer soluções simples e
+              seguras.
+            </li>
+            <li>Levamos em conta o feedback do cliente para melhorar o nosso processo e ganhar sua confiança.</li>
+            <li>Também somos humanos. O nosso ambiente de trabalho é amigável e descontraído.</li>
+          </ul>
+          <h3>Sobre a vaga de estágio</h3>
+          <p>O único pré-requisito é que você seja <b>proativo</b>, <b>ágil</b> e <b>comprometido</b>.</p>
+          <p>É desejável que você tenha conhecimentos em HTML, CSS, Javascript, Git e Banco de dados.</p>
+          <p>Será de grande valor se você já tiver conhecimento sobre algum dos seguintes tópicos:</p>
+          <ul>
+            <li>AngularJS / React.js / Backbone / Ember</li>
+            <li>Ruby on Rails</li>
+            <li>SQL / NoSQL databases (como MySQL, PostgreSQL ou Redis)</li>
+            <li>RESTful API</li>
+            <li>Ionic</li>
+            <li>Android ou iOS</li>
+          </ul>
+          <p>A Zagu está localizada no Setor de Indústrias Gráficas, em Brasília - DF.</p>
+          <p>Oferecemos aos nossos membros um ambiente amigável e descontraído, com Bis, Coca-cola, Red Bull e Twix.</p>
+          <p>A oferta é para estágio de 20h semanais com horário flexível.</p>
+
+          <h2>Sobre o seu teste</h2>
+          <p>Você pode começar o seu teste até <b><%= @current_user.start_test_until.try(:in_time_zone,'Brasilia').try(:strftime, '%d/%m/%Y às %H:%M') %></b>. Após esse período, o teste será iniciado automaticamente.</p>
+          <p>Após iniciar o teste, você terá até 10 dias para enviar a solução do teste para o e-mail: <b>estagio@zagu.com.br</b>.</p>
+          <p>Entraremos em contato com você após o envio da solução.</p>
+          <p>Obs: Soluções enviadas após o término do prazo não serão consideradas.</p>
+
+          <%= button_to 'Iniciar Teste', start_test_path, method: :get, style: "margin-top: 10px;", class: 'btn btn-success' %>
+        </div>
+      </div>
+    </div>
+<% else %>
+    <div>
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#">Zagu</a>-->
+            <a href="<%= root_url %>"><%= image_tag 'zagu_white_110px.png', class: 'zagu-brand' %></a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="#testDescriptionSection">O teste </a></li>
+              <li><a href="#testTipsSection">Recomendações </a></li>
+              <li><a href="#testLinksSection">Links úteis </a></li>
+              <li><a href="#baseAppSection">Projeto Base </a></li>
+              <li class="time-container">Tempo: <span id="time"></span></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+
+    <div class="container-fluid">
+      <div class="panel">
+        <div class="panel-body">
+          <div id="testDescriptionSection">
+            <h1>Teste para vaga de estágio da Zagu</h1>
+            <h2>AngularJs e REST API</h2>
+
+            <p>Nesse teste aprenderemos o funcionamento de uma API RESTful
+              e utilizaremos uma API pronta com o intuito de criar uma aplicação
+              WEB para gerenciamento de cartões de crédito.</br> A aplicação deve conseguir
+              mostrar dados do cartão, adicionar, apagar e atualizar cartões e, também,
+              para cada cartão de crédito deve ser possível visualizar dados de seus
+              respectivos pagamentos, como adicionar, apagar e atualizar pagamentos.</br>
+              Para conclusão do teste serão necessários conhecimentos básicos de HTML,
+              Javascript, REST e AngularJS.
+            </p>
+
+            <p>O modelo REST pode ser visto na imagem a seguir:
+              <%= image_tag 'building-coldfusion-and-angularjs-applications-4-638.jpg', class: 'img-responsive', width: 500 %>
+            <p>Fornecemos uma API RESTful para a implementação deste teste e você deve implementar um cliente para essa
+              API (Front end) em AngularJS.
+              Toda e qualquer requisição à API deve ser feita em formato JSON. Lembre-se de utilizar o header
+              Content-Type: application/json às suas requisições!
+            </p>
+
+            <p>O endpoint da API é: <b>http://estagio.zagu.com.br/</b></p>
+            <p>A documentação da API está disponível no site:
+              <b><a href="http://docestagio.zagu.com.br/">http://docestagio.zagu.com.br/</a></b>
+            </p>
+
+            <h2>
+              O teste:
+            </h2>
+            <ol>
+              <li>Execute a aplicação base (disponível em
+                <a href="https://github.com/ZaguDev/estagio-angular"><b>https://github.com/ZaguDev/estagio-angular</b></a>)
+                e verifique seu funcionamento acessando <b href="http://localhost:8000">http://localhost:8000</b> no seu
+                navegador.
+              </li>
+              <li>Faça uma tela listando todos os cartões disponibilizados pela API. Lembre-se, o banco de dados da API
+                está vazio e você é responsável por popular os dados na API!
+              </li>
+              <li>Você deve criar um formulário para que o usuário possa preencher os dados do cartão e adicioná-lo. Não
+                se esqueça que você está trabalhando com uma API externa, então é necessário que o seu formulário faça a
+                criação do registro na nossa API ao ser submetido. Dica: a criação de um registro ocorre através de um
+                POST em nossa API! ;-)
+              </li>
+              <li>Ainda na tela de visualização dos cartões, você deve dar ao usuário a possibilidade de editar e apagar
+                um cartão de crédito.
+              </li>
+              <li>Por fim, deve ser possível visualizar todos os dados de um cartão de crédito, inclusive os pagamentos
+                associados a este cartão. Para isso, carregue uma nova página ou um modal ao clicar em algum dos
+                cartões. Nessa nova página, além de visualizar todos os dados do cartão de crédito, você deve viabilizar
+                a criação, alteração e exclusão de pagamentos associados a este cartão.
+              </li>
+              <li>Ufa! Quando finalizar o teste, coloque o código no seu Github e envie o link para o e-mail
+                <b>estagio@zagu.com.br</b></li>
+            </ol>
+          </div>
+
+          <div id="testTipsSection" class="margin">
+            <h2>Recomendações:</h2>
+            <ul>
+              <li>Use o software Postman, para testar o funcionamento dos endpoints da API e das requisições HTTP antes
+                de começar a programar usando o código base;
+              </li>
+              <li>A versão do AngularJS utilizada <b>deve</b> ser a versão 1</li>
+              <li>Organize o seu código HTML, CSS e Javascript em diferentes arquivos.</li>
+              <li>Leia atentamente a documentação da API.</li>
+              <li>Alguns exemplos de como fazer o roteamento de views e requisições HTTP já estão inclusos no código
+                base.
+              </li>
+            </ul>
+          </div>
+
+          <div id="testLinksSection" class="margin">
+            <h2>Links úteis:</h2>
+            <ul>
+              <li>Postman: <a href="https://www.getpostman.com/">https://www.getpostman.com/</a></li>
+              <li>Fazendo requisições HTTP na API REST:
+                <a href="https://docs.angularjs.org/tutorial/step_13">https://docs.angularjs.org/tutorial/step_13</a>
+              </li>
+              <li>Exemplo de roteamento de views:
+                <a href="https://docs.angularjs.org/tutorial/step_09">https://docs.angularjs.org/tutorial/step_09</a>
+              </li>
+              <li>Bootstrap tables: <a href="https://www.w3schools.com/bootstrap/bootstrap_tables.asp">
+                https://www.w3schools.com/bootstrap/bootstrap_tables.asp</a></li>
+              <li>Bootstrap forms: <a href="https://www.w3schools.com/bootstrap/bootstrap_forms_inputs.asp">
+                https://www.w3schools.com/bootstrap/bootstrap_forms_inputs.asp</a></li>
+              <li>Diretiva routeParams:
+                <a href="https://docs.angularjs.org/api/ngRoute/service/$routeParams">https://docs.angularjs.org/api/ngRoute/service/$routeParams</a>
+              </li>
+              <li>Instalação do Bower: <a href="https://bower.io/">https://bower.io/</a></li>
+            </ul>
+          </div>
+
+          <div id="baseAppSection" class="margin">
+            <h2>Executando a aplicação base:</h2>
+            <p>Criamos um projeto base, que pode ser visualizado no link
+              <a href="https://github.com/ZaguDev/estagio-angular"><b>https://github.com/ZaguDev/estagio-angular</b></a>
+              , para ser usado como molde na criação da sua aplicação AngularJs. À partir desse exemplo, crie a sua
+              solução para o problema proposto nesse teste. (criar, editar, deletar e visualizar).
+            </p>
+            <ol>
+              <li>Instale o Node.js no seu computador.</li>
+              <li>Instale o bower no seu computador usando o comando <b>npm install -g bower.</b></li>
+              <li>Abra o diretório raiz do projeto pelo terminal.</li>
+              <li>Execute o comando <b>npm install</b> para instalar as bibliotecas e dependências do projeto.</li>
+              <li>Execute o comando <b>npm start</b> para iniciar o servidor Node.js e executar a aplicação.</li>
+              <li>Acesse pelo seu navegador o endereço <b>http://localhost:8000</b> para visualizar a aplicação em
+                funcionamento.
+              </li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,34 @@
+*.rbc
+capybara-*.html
+.rspec
+/log
+/tmp
+/db/*.sqlite3
+/public/users
+/public/physical_evaluations
+/public/down_cheques
+/coverage/
+/spec/tmp
+**.orig
+rerun.txt
+pickle-email-*.html
+config/secrets.yml
+#config/initializers/secret_token.rb
+db/schema.rb
+
+## Environment normalisation:
+/.bundle
+/vendor/bundle
+
+# these should all be checked in to normalise the environment:
+# Gemfile.lock, .ruby-version, .ruby-gemset
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
+
+*.DS_Store
+*.Thumbs.db
+.idea
+.vscode
+/config/database.yml
+/*.csv
