@@ -2,18 +2,18 @@
 
 class User < ActiveRecord::Base
 
-  acts_as_authentic do |c|
-    # c.crypto_provider = Authlogic::CryptoProviders::Sha512
+  # acts_as_authentic do |c|
+  #   # c.crypto_provider = Authlogic::CryptoProviders::Sha512
 
-    c.validate_login_field = false
-    c.validate_email_field = false
-    # c.crypted_password_field = false
-    c.require_password_confirmation = false
-    c.ignore_blank_passwords = true
-    c.validate_password_field = false
-    c.check_passwords_against_database = false
-    c.login_field = :token
-  end
+  #   c.validate_login_field = false
+  #   c.validate_email_field = false
+  #   # c.crypted_password_field = false
+  #   c.require_password_confirmation = false
+  #   c.ignore_blank_passwords = true
+  #   c.validate_password_field = false
+  #   c.check_passwords_against_database = false
+  #   c.login_field = :token
+  # end
 
   has_many :user_tokens
   has_many :cards

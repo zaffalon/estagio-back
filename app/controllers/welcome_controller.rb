@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  before_filter :require_user_session
+  before_action :require_user_session
 
   def index
     @finish_date = @current_user.started_test.finish_until if !@current_user.started_test.nil?
